@@ -37,6 +37,5 @@ jobs:
           LANG: en
       - name: Adding README - French
         uses: dephraiim/translate-readme@main
-        working-directory: ./Network_DEA
         with:
           LANG: fa
