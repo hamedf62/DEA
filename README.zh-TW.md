@@ -6,7 +6,7 @@
 
 ### § 要求
 
--   python 3.6
+-   蟒蛇3.6
 
 -   gurobipy 6.5.2 以上版本
 
@@ -36,7 +36,7 @@
 | ---------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2018-03-23 | DEA 函數說明         | [文件](https://github.com/wurmen/DEA/blob/master/Functions/user's%20guide.md)                                                                                                                                                                                                                                                                                                                              |
 | 2018-03-23 | 基本 DEA 模型的讀取資料函數 | [文件](https://github.com/wurmen/DEA/blob/master/Functions/read_data_function.md)/[例子](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/read_data_example.ipynb)/[程式碼](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/DEA.py)/[資料夾](https://github.com/wurmen/DEA/tree/master/Functions/basic_DEA_data%26code)                                         |
-| 2018-03-23 | DEA 基本函數         | [Documentation](https://github.com/wurmen/DEA/blob/master/Functions/basic_dea_functions.md)/[例子](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/basic_DEA_function.ipynb)/[程式碼](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/DEA.py)/[資料夾](https://github.com/wurmen/DEA/tree/master/Functions/basic_DEA_data%26code)                            |
+| 2018-03-23 | DEA 基本函數         | [文件](https://github.com/wurmen/DEA/blob/master/Functions/basic_dea_functions.md)/[例子](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/basic_DEA_function.ipynb)/[程式碼](https://github.com/wurmen/DEA/blob/master/Functions/basic_DEA_data%26code/DEA.py)/[資料夾](https://github.com/wurmen/DEA/tree/master/Functions/basic_DEA_data%26code)                                       |
 | 2018-03-23 | 網路DEA讀取資料功能      | [文件](https://github.com/wurmen/DEA/blob/master/Functions/read_data_for_networkDEA.md)/[例子](https://github.com/wurmen/DEA/blob/master/Functions/network_data%26code/Read_data_for_network_DEA_function%20example.ipynb)/[程式碼](https://github.com/wurmen/DEA/blob/master/Functions/network_data%26code/network_function.py)/[資料夾](https://github.com/wurmen/DEA/tree/master/Functions/network_data%26code) |
 | 2018-03-23 | 關係網絡DEA函數        | [文件](https://github.com/wurmen/DEA/blob/master/Functions/network_DEA_function.md)/[例子](https://github.com/wurmen/DEA/blob/master/Functions/network_data%26code/Network_DEA_function_example.ipynb)/[程式碼](https://github.com/wurmen/DEA/blob/master/Functions/network_data%26code/network_function.py)/[資料夾](https://github.com/wurmen/DEA/tree/master/Functions/network_data%26code)                     |
 

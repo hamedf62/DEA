@@ -14,7 +14,7 @@ Ici, nous utilisons principalement quelques exemples pour illustrer comment util
 
 Les articles de ce domaine présentent principalement les modèles DEA suivants et expliquent le processus de modélisation de Python-Gurobi :
 
--   CRS (retour d'échelle constant ; orienté sur les intrants) : modèle à retour d'échelle fixe orienté sur les intrants
+-   CRS(constant return to scale; input-oriented) ：固定規模報酬投入導向模型
 
 -   VRS (retour d'échelle variable ; orienté entrées) : modèle à retour d'échelle variable orienté entrées
 
@@ -49,4 +49,4 @@ Si vous n'êtes pas familier avec la modélisation python-gurobi, vous pouvez vo
 -   [Enseignement des installations environnementales](https://github.com/wurmen/Gurobi-Python/blob/master/Installation/%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8.md)
 -   [Architecture de base Python+Gurobi](https://github.com/wurmen/Gurobi-Python/blob/master/python-gurobi%20%20model/Python+Gurobi%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%A7%8B.md)<br>
 -   [Modélisation Python+Gurobi](https://github.com/wurmen/Gurobi-Python/blob/master/python-gurobi%20%20model/Python+Gurobi%E5%BB%BA%E6%A8%A1.md)<br>
--   [Structure de données spéciale Python+Gurobi](https://github.com/wurmen/Gurobi-Python/blob/master/python-gurobi%20%20model/Python%2BGurobi%E7%89%B9%E6%AE%8A%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B.ipynb)
+-   [Python+Gurobi特殊資料結構](https://github.com/wurmen/Gurobi-Python/blob/master/python-gurobi%20%20model/Python%2BGurobi%E7%89%B9%E6%AE%8A%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B.ipynb)
