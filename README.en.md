@@ -1,14 +1,14 @@
 # Network DEA
 
-_POLab_<br>_2017/01/30_<br>[【back to the homepage】](https://github.com/wurmen/DEA)<br>
+_POLab_<br>_2017/01/30_<br>[【Return to homepage】](https://github.com/wurmen/DEA)<br>
 
 #### ※_Reference_
 
 _This article mainly refers to[Professor Gao Qiang](http://www.iim.ncku.edu.tw/files/11-1407-20368.php?Lang=zh-tw)Paper published in 2007:[Efficiency decomposition in network data envelopment analysis: A relational model](https://www.sciencedirect.com/science/article/pii/S0377221707010077)_
 
-## (I. Introduction
+## (1) Foreword
 
-When common DEA measures efficiency, it generally treats the entire system as a whole and does not discuss the status of each internal process. However, it often ignores the efficiency between processes within the system, such as when building a system.[CRS Model](https://github.com/wurmen/DEA/blob/master/CRS_Model/CRS%20model.md)The example proposed is similar, and Professor Gao Qiang constructed a**Association network DEA model**(Relational network DEA model), using this model to explore the interrelationships between the various processes within the system, and simultaneously measure the system efficiency and the efficiency of each process, by introducing dummy processes (Dummy processes), the original network system is converted into a serial system And make each stage in the series a parallel structure to achieve the purpose of efficiency decomposition. Through efficiency decomposition, we can find out the processes that cause the system to run inefficiently for future improvements;**Therefore, in this article, we mainly use the examples in the paper and the mathematical model proposed to explain and use Python-Gurobi for modeling.**
+When common DEA measures efficiency, it generally treats the entire system as a whole and does not discuss the status of each internal process. However, it often ignores the efficiency between processes within the system, such as when building a system.[CRS Model](https://github.com/wurmen/DEA/blob/master/CRS_Model/CRS%20model.md)The example proposed is similar, and Professor Gao Qiang constructed a**Association network DEA model**(Relational network DEA model), using this model to explore the interrelationships between the various processes within the system, and simultaneously measure the system efficiency and the efficiency of each process, by introducing dummy processes (Dummy processes), the original network system is converted into a serial system And make each stage in the series a parallel structure to achieve the purpose of efficiency decomposition. Through efficiency decomposition, we can find out the processes that lead to inefficient operation of the system for future improvements;**Therefore, in this article, we mainly use the examples in the paper and the mathematical model proposed to explain and use Python-Gurobi for modeling.**
 
 ## (2) Example description
 
@@ -55,34 +55,34 @@ When common DEA measures efficiency, it generally treats the entire system as a 
 
 The above system can form a mathematical model as shown below
 
-### § Symbol Description
+### § Symbol description
 
 -   E<sub>k</sup></sub>: Efficiency value of decision-making unit k
 -   n: Number of decision-making units (DMU) (n=5 in this example)<br>
 -   ε: A very small positive value is called a non-Archimedean constant, usually set to 10<sup>-4</sup></sub>or 10<sup>-6</sup></sub>(The purpose is to prevent any input or output item from being ignored)
 
-### § Parameter Description
+### § Parameter description
 
 -   X<sub>ij</sup></sub>: In the overall system of decision-making unit j (j=1,...,n), the initial i-th (i=1,...,m) input item (m=2 in this example)
 
--   X<sup>(t)</sup></sub><sub>ij</sup></sub>: The i-th input item of decision-making unit j (j=1,...,n) in process t (in this example t=1,2,3, i=1,2)
+-   X<sup>(t)</sup></sub><sub>ij</sup></sub>: The i-th input item of decision-making unit j (j=1,...,n) in process t (in this example, t=1,2,3, i=1,2)
 
 -   Y<sup>(O)</sup></sub><sub>1j</sup></sub>、Y<sup>(I)</sup></sub><sub>1j</sup></sub>: The output item of process 1 of decision-making unit j (j=1,...,n), Y<sup>(O)</sup></sub><sub>1j</sup></sub>is the final system output, Y<sup>(I)</sup></sub><sub>1j</sup></sub>Will become part of the input items in process 3
 
--   Y<sup>(O)</sup></sub><sub>Oh</sup></sub>、Y<sup>(I)</sup></sub><sub>Oh</sup></sub>: The output item of process 1 of decision-making unit j (j=1,...,n), Y<sup>(O)</sup></sub><sub>Oh</sup></sub>is the final system output, Y<sup>(I)</sup></sub><sub>Oh</sup></sub>Will become part of the input items in process 3
+-   Y<sup>(O)</sup></sub><sub>Oh</sup></sub>、Y<sup>(I)</sup></sub><sub>Oh</sup></sub>: The output item of process 1 of decision-making unit j (j=1,...,n), Y<sup>(O)</sup></sub><sub>Oh</sup></sub>為最終的系統產出，Y<sup>(I)</sup></sub><sub>Oh</sup></sub>Will become part of the input items in process 3
 
 -   Y<sub>ij</sup></sub>: The total output of decision-making unit j (j=1,...,n) in process i
 
 ### § Decision variables
 
--   u<sub>r</sup></sub>: The weight of the r-th output item (r=1,2,3 in this example)
+-   u<sub>r</sup></sub>: The weight of the r-th output item (in this example r=1,2,3)
 -   v<sub>i</sup></sub>: The weight of the i-th input item (i=1,2 in this example)
 
 ### § Goal and restriction
 
-This mathematical model is the correlation network DEA model proposed by Professor Gao<br>
+This mathematical model is the association network DEA model proposed by Professor Gao<br>
 
-※This model is extended based on CRS Model (please refer to[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
+※This model is based on the CRS Model extension (please refer to[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
 
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/model1.png" width="550" height="250">
 
@@ -98,9 +98,9 @@ After solving the problem, the following mathematical formulas can be used to ca
 
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/model3.png" width="470" height="105">
 
-## (3) Python-Gurobi
+## (3)Python-Gurobi
 
-Here we explain how to use Python-Gurobi to construct an association network DEA model.
+Here is an explanation of how to use Python-Gurobi to construct an association network DEA model.
 
 ##### ※The complete program code can be clicked[here](https://github.com/wurmen/DEA/blob/master/Network_DEA/network_dea_code.py)
 
