@@ -1,106 +1,106 @@
 # Network DEA
 
-_POLab_<br>_2017/01/30_<br>[【Return to homepage】](https://github.com/wurmen/DEA)<br>
+_POLab_<br>_2017/01/30_<br>[【Back to Homepage】](https://github.com/wurmen/DEA)<br>
 
 #### ※_Reference_
 
 _This article mainly refers to[Professor Gao Qiang](http://www.iim.ncku.edu.tw/files/11-1407-20368.php?Lang=zh-tw)Paper published in 2007:[Efficiency decomposition in network data envelopment analysis: A relational model](https://www.sciencedirect.com/science/article/pii/S0377221707010077)_
 
-## (1) Foreword
+## (I) Preface
 
-When common DEA measures efficiency, it generally treats the entire system as a whole and does not discuss the status of each internal process. However, it often ignores the efficiency between processes within the system, such as when building a system.[CRS Model](https://github.com/wurmen/DEA/blob/master/CRS_Model/CRS%20model.md)The example proposed is similar, and Professor Gao Qiang constructed a**Association network DEA model**(Relational network DEA model), using this model to explore the interrelationships between the various processes within the system, and simultaneously measure the system efficiency and the efficiency of each process, by introducing dummy processes (Dummy processes), the original network system is converted into a serial system And make each stage in the series a parallel structure to achieve the purpose of efficiency decomposition. Through efficiency decomposition, we can find out the processes that lead to inefficient operation of the system for future improvements;**Therefore, in this article, we mainly use the examples in the paper and the mathematical model proposed to explain and use Python-Gurobi for modeling.**
+When measuring efficiency in common DEA, the entire system is generally regarded as a whole, and does not discuss the situation of internal processes, but often ignores the efficiency between internal processes, just like being built.[CRS Model](https://github.com/wurmen/DEA/blob/master/CRS_Model/CRS%20model.md)The proposed example is like, and Professor Gao Qiang constructed a**Associated Network DEA Model**(Relational network DEA model) uses this model to explore the relationship between the processes within the system, and simultaneously measure the system efficiency and the efficiency of each process. By introducing virtual processes (Dummy processes), the original network system is converted into a series system, and each stage in the series is a parallel structure to achieve the purpose of efficiency decomposition. Through efficiency decomposition, find out the processes that cause the system to run inefficiently for future improvements;**Therefore, in this article, we mainly use the examples in paper and the proposed mathematical model to illustrate and use Python-Gurobi for modeling**
 
-## (2) Example description
+## (II) Example
 
-#### ※Here we use the example proposed in Section 3 of the paper for explanation.
+#### ※This is used to explain the examples proposed in Section 3 of the paper
 
 ### § Sample system architecture
 
--   The figure below is a system formed by three processes. The system initially has two inputs and will eventually have three outputs. The input and output of each process within the system is as shown in the figure below:<br>
+-   The following figure is a system formed by three processes. The system initially has two inputs and finally three outputs. The input and output situations of each process within the system are shown in the figure below:<br>
 
-1.  The initial two inputs of the system will be divided into three parts for Process 1, Process 2 and Process 3 as their respective inputs.<br>
-2.  The output of process 1 and process 2 will be divided into two parts, one part is the final system output, and the other part is used as part of the input of process 3
+1.  The initial two investments in the system will be divided into three parts to process 1, process 2 and process 3 as their respective investments.<br>
+2.  The output of process 1 and process 2 will be divided into two parts, one part is the final system output, and the other part is regarded as part of process 3 input.
 
 <div align=center>
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/network%20system.PNG" width="550" height="350">
 </div>
 <br>
 
--   In order to achieve efficiency decomposition so that the efficiency of each process can be measured, this study uses**Join virtual process**To convert the above system into a system with two stages, each stage is a parallel structure, as shown in the following figure:<br>
+-   In order to achieve efficiency decomposition and enable the efficiency of each process to be measured, this study has been carried out through**Join the virtual process**To convert the above system into a system with two stages, and each stage is a parallel structure, as shown in the figure below:<br>
 
-※ Each symbol in the figure is explained in detail in the mathematical model below.
+※ Each symbol representation in the figure is explained in detail in the following mathematical model
 
 <div align=center>
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/network%20system1.png" width="750" height="350">
 </div>
 
-##### ※Before the third section, this research has put forward two arguments (the inference process can be read in detail[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
+##### ※Before Section 3, two arguments were put forward in this study (the inference process can be read in detail[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
 
-###### 1. In a system formed by processes in a series structure, the efficiency product of each process is equal to the overall efficiency value
+###### 1. In a system formed by a series structure process, the efficiency product of each process is equal to the overall efficiency value
 
-###### 2. In a system formed by parallel-structured processes, the sum of the inefficiency slack of each process is equal to the inefficiency slack of the overall efficiency.
+###### 2. In a system formed by parallel structured processes, the sum of inefficiency slacks of each process equals the inefficiency slacks of the overall efficiency
 
-###### Therefore, in this system, the overall system efficiency value is the product of the efficiency of each stage in the series structure, that is, the product of the efficiency of stage 1 and stage 2, and the inefficiency of each stage is relaxed to the inefficiency of each process in the parallel structure The total relaxation, that is, the inefficient relaxation in stage 1 is the sum of process 1 and process 2, and the inefficient relaxation in stage 2 is equal to the inefficient relaxation in process 3.
+###### Therefore, in this system, the overall system efficiency value is the product of the efficiency of each stage in the series structure, that is, the efficiency product of stage 1 and stage 2, and the low efficiency relaxation of each stage is the sum of the low efficiency relaxation of each process, that is, the low efficiency relaxation of stage 1 is the sum of process 1 and process 2, and the low efficiency relaxation of stage 2 is equal to the low efficiency relaxation of process 3 in the parallel structure.
 
 <br>
 
-### § Data on various output items and input items of decision-making units
+### § Data on various output and input items of the decision-making unit
 
--   There are five decision-making units to be compared. The output and input of their systems and each process are as shown in the following table:
+-   There are five decision-making units to compare, and the output and input situations of their systems and processes are shown in the following table:
     <div align=center>
     <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/example-data.PNG" width="800" height="370">
     </div>
 
-## (3) Mathematical model
+## (III) Mathematical Model
 
 The above system can form a mathematical model as shown below
 
-### § Symbol description
+### § Symbol Description
 
--   E<sub>k</sup></sub>: Efficiency value of decision-making unit k
--   n: Number of decision-making units (DMU) (n=5 in this example)<br>
--   ε: A very small positive value is called a non-Archimedean constant, usually set to 10<sup>-4</sup></sub>or 10<sup>-6</sup></sub>(The purpose is to prevent any input or output item from being ignored)
+-   E<sub>k</sup></sub>: The efficiency value of the decision unit k
+-   n: Number of decision units (DMUs) (in this example n=5)<br>
+-   ε: The extremely small positive value is called the non-Archimedean constant, usually set to 10<sup>-4</sup></sub>Or 10<sup>-6</sup></sub>(Purpose to prevent any input or output from being ignored)
 
 ### § Parameter description
 
--   X<sub>ij</sup></sub>: In the overall system of decision-making unit j (j=1,...,n), the initial i-th (i=1,...,m) input item (m=2 in this example)
+-   X<sub>ij</sup></sub>: In the overall system of decision unit j (j=1,...,n), the initial i (i=1,...,m) input items (in this example m=2)
 
--   X<sup>(t)</sup></sub><sub>ij</sup></sub>: The i-th input item of decision-making unit j (j=1,...,n) in process t (in this example, t=1,2,3, i=1,2)
+-   X<sup>(t)</sup></sub><sub>ij</sup></sub>: Decision unit j (j=1,...,n) is in the i-th input item of process t (in this example t=1,2,3, i=1,2)
 
--   Y<sup>(O)</sup></sub><sub>1j</sup></sub>、Y<sup>(I)</sup></sub><sub>1j</sup></sub>: The output item of process 1 of decision-making unit j (j=1,...,n), Y<sup>(O)</sup></sub><sub>1j</sup></sub>is the final system output, Y<sup>(I)</sup></sub><sub>1j</sup></sub>Will become part of the input items in process 3
+-   Y<sup>(O)</sup></sub><sub>1J</sup></sub>、Y<sup>(I)</sup></sub><sub>1J</sup></sub>: The output item of the decision unit j (j=1,...,n) process 1, Y<sup>(O)</sup></sub><sub>1J</sup></sub>For the final system output, Y<sup>(I)</sup></sub><sub>1J</sup></sub>Will become part of the investment in Process 3
 
--   Y<sup>(O)</sup></sub><sub>Oh</sup></sub>、Y<sup>(I)</sup></sub><sub>Oh</sup></sub>: The output item of process 1 of decision-making unit j (j=1,...,n), Y<sup>(O)</sup></sub><sub>Oh</sup></sub>為最終的系統產出，Y<sup>(I)</sup></sub><sub>Oh</sup></sub>Will become part of the input items in process 3
+-   Y<sup>(O)</sup></sub><sub>Aj</sup></sub>、Y<sup>(I)</sup></sub><sub>Aj</sup></sub>: The output item of the decision unit j (j=1,...,n) process 1, Y<sup>(O)</sup></sub><sub>Aj</sup></sub>For the final system output, Y<sup>(I)</sup></sub><sub>Aj</sup></sub>Will become part of the investment in Process 3
 
--   Y<sub>ij</sup></sub>: The total output of decision-making unit j (j=1,...,n) in process i
+-   Y<sub>ij</sup></sub>: Total output of decision-making unit j (j=1,...,n) in process i
 
 ### § Decision variables
 
 -   u<sub>r</sup></sub>: The weight of the r-th output item (in this example r=1,2,3)
--   v<sub>i</sup></sub>: The weight of the i-th input item (i=1,2 in this example)
+-   v<sub>i</sup></sub>: The weight of the i-th investment item (in this example i=1,2)
 
-### § Goal and restriction
+### § Targeted and restricted
 
-This mathematical model is the association network DEA model proposed by Professor Gao<br>
+This mathematical model is the DEA model of the association network proposed by Professor Gao<br>
 
-※This model is based on the CRS Model extension (please refer to[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
+※This model is extended based on CRS Model (for details, please refer to[original](https://www.sciencedirect.com/science/article/pii/S0377221707010077))
 
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/model1.png" width="550" height="250">
 
 ### § Efficiency of each process
 
-After solving the problem, the individual efficiency values ​​of each process can be calculated through the following mathematical formulas:
+After the solution is completed, the individual efficiency values ​​of each process can be calculated through the following mathematical formulas.
 
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/model2.png" width="450" height="120">
 
-### § Efficiency of each stage
+### § Efficiency at each stage
 
-After solving the problem, the following mathematical formulas can be used to calculate the efficiency value of each stage.
+After the solution is completed, the following mathematical formula can be used to calculate the efficiency values ​​of each stage.
 
 <img src="https://github.com/wurmen/DEA/blob/master/Network_DEA/pictures/model3.png" width="470" height="105">
 
-## (3)Python-Gurobi
+## (III) Python-Gurobi
 
-Here is an explanation of how to use Python-Gurobi to construct an association network DEA model.
+Here we explain how to use Python-Gurobi to construct the DEA model of the associated network
 
 ##### ※The complete program code can be clicked[here](https://github.com/wurmen/DEA/blob/master/Network_DEA/network_dea_code.py)
 
@@ -112,7 +112,7 @@ from gurobipy import*
 
 ### Add parameters
 
--   Calculate the efficiency of each decision-making unit through for loop
+-   Calculate the efficiency of each decision unit through the for loop
 
 ```python
 DMU=['A', 'B','C','D','E']
@@ -131,7 +131,7 @@ for k in DMU:
     DMU,Totx1,Totx2=multidict({("A"):[11,14],("B"):[7,7],("C"):[11,14],("D"):[14,14],("E"):[14,15]})
 ```
 
--   Record the output and input data of each process, taking process 1 as an example:<br>proc1x1: records the first input data of process 1<br>proc1x2: records the second input data of process 1<br>proc1TotyO: Record the total output data of process 1 (proc1TotyO= proc1yO+Proc1yI)<br>proc1yO: records the data output by the final system in the total output of process 1<br>Proc1yI: Record the data of the total output of process 1 that will become the input items of process 3<br>
+-   Record the output and input data of each process, taking Process 1 as an example:<br>proc1x1: Recording the first input data of process 1<br>proc1x2: Recording the second input data of process 1<br>proc1TotyO: Total output data for recording process 1 (proc1TotyO=proc1yO+Proc1yI)<br>proc1yO: Data from the total output of the record process 1 is the final system output<br>Proc1yI: The data that will be the input item of process 3 in the total output of process 1<br>
 
 ```python
     DMU,proc1x1,proc1x2,proc1TotyO,proc1yO,proc1yI=multidict({("A"):[3,5,4,2,2],("B"):[2,3,2,1,1],("C"):[3,4,2,1,1],("D"):[4,6,3,2,1],("E"):[5,6,4,3,1]})
@@ -147,7 +147,7 @@ for k in DMU:
 
 ### Add decision variables
 
--   Establish decision variable input and output weights v<sub>i</sup></sub>、 u<sub>r</sup></sub>
+-   Establish the input and output weights of decision variables v<sub>i</sup></sub>、 u<sub>r</sup></sub>
 
 ```python
     P1,P2,P3={},{},{}
@@ -190,14 +190,14 @@ for k in DMU:
     E[k]="The efficiency of DMU %s:%4.4g"%(k,m.objVal) #取得決策單位的整體效率值
 ```
 
--   Get the solution v<sub>i</sup></sub>、 u<sub>r</sup></sub>value
+-   Get the solution v<sub>i</sup></sub>、 u<sub>r</sup></sub>Value of
 
 ```python
     u_sol = m.getAttr('x', u)
     v_sol = m.getAttr('x',v)
 ```
 
--   Calculate the efficiency value of each process
+-   Calculate the efficiency values ​​of each process
 
 ```python
     
@@ -206,7 +206,7 @@ for k in DMU:
     E3=u_sol[2]*proc3TotyO[k]/(v_sol[0]*proc3x1[k]+v_sol[1]*proc3x2[k]+u_sol[0]*proc1yI[k]+u_sol[1]*proc2yI[k])
 ```
 
--   Calculate the efficiency value of each stage
+-   Calculate the efficiency values ​​of each stage
 
 ```python
     
@@ -224,7 +224,7 @@ for k in DMU:
     val_s2[k]='The efficiency of stage 2 of DMU %s:%4.4g'%(k,stage2)
 ```
 
--   Use the slack parameter in gurobi to obtain the inefficiency value of each process
+-   Use the slack parameters in gurobi to obtain the inefficiency value of each process
 
 ```python
 
@@ -253,7 +253,7 @@ for k in DMU:
 
 ```
 
-**Finally, you can get the result as shown below**<br>
+**Finally, the results shown below can be obtained**<br>
 
     The efficiency of DMU A:0.5227
     The efficiency of process 1 of DMU A:   1
